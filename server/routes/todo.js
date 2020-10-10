@@ -99,4 +99,22 @@ router.put('/:id', (req, res) => {
     });
 })
 
+router.delete('/:id', (req, res) => {
+    const id = req.params.id;
+    if (typeof id != 'undefined') {
+        knex('todo')
+            .where('id', id)
+            .del()
+            .then(() => {
+                res.redirect('/todo');
+            });
+    } else {
+        // respond with an error
+        res.status(500);
+        res.render('error', {
+            message: 'invalid id'
+        });
+    }
+})
+
 module.exports = router;
